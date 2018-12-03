@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, browserHistory, IndexRedirect, useRouterHistory, hashHistory, Redirect } from 'react-router';
 
 import Posts from './Posts';
-import Post from './Post';
+import PostPage from './PostPage';
 import UserProfile from './UserProfile';
 import PageNotFound from './PageNotFound';
 
@@ -15,7 +15,7 @@ const Routes =(
         />
         <Route
             path="/posts/:postId/"
-            component={Post}
+            component={PostPage}
         />
         <Route
             path="/users/:userId/"

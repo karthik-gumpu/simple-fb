@@ -1,7 +1,7 @@
 import React from 'react';
 
 import api from '../utils/api';
-import Post from './Post';
+import PostCard from './PostCard';
 
 class Posts extends React.Component {
     constructor(props) {
@@ -17,11 +17,10 @@ class Posts extends React.Component {
         });
     }
     render() {
-        console.log('posts', this.state.posts)
         return(
             <div>
                 {
-                    this.state.posts.map((post)=> <Post key={post.id} post={post} />)
+                    this.state.posts.map((post)=> <PostCard key={post.id} post={post} />)
                 }
             </div>
         )
