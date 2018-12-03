@@ -3,8 +3,9 @@ import React from 'react';
 class Post extends React.Component {
     render() {
         return(
-            <div>
-                this is single post
+            <div className="card">
+                <h4>{this.props.post.title}</h4>
+                <p> {this.props.post.body} </p>
             </div>
         )
     }
