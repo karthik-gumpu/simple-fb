@@ -1,7 +1,9 @@
 import React from 'react';
 
 import api from '../utils/api';
-import PostCard from './PostCard'
+import PostCard from './PostCard';
+import Loading from './Loading';
+import Commnets from './Comments';
 
 class PostPage extends React.Component {
     constructor(props) {
@@ -10,16 +12,21 @@ class PostPage extends React.Component {
     }
 
     componentDidMount() {
-        api({ url: `/posts/${this.props.params.postId}`})
-        .then((post) => this.setState({ post }))        
+        api({ url: `/posts/${this.props.params.postId}?_expand=user`})
+        .then((post) => this.setState({ post }));    
     }
 
     render(){
         if(!this.state.post) {
-            return <div> Loading wait...</div>
+            return <Loading />
         }
+
         return(
-            <PostCard post={this.state.post}/>
+            <div>
+                <PostCard post={this.state.post} {...this.props} />
+                <hr />
+                <Commnets {...this.props}/>
+            </div>
         )
     }
 }
