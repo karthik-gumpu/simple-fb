@@ -38,7 +38,7 @@ class Posts extends React.PureComponent {
             url = `${url}&userId=${this.props.params.userId}`
         }
         this.setState({ loading: true });
-        api({ url })
+        this.fetchingPosts = api({ url })
         .then((posts) => {
             this.setState((prevState) => ({
                 posts: [...prevState.posts, ...posts],
@@ -51,6 +51,11 @@ class Posts extends React.PureComponent {
     }
     componentWillUnmount() {
         window.removeEventListener('scroll', this.onPageScroll);
+
+        // Cancel pending request
+        if(this.fetchingPosts) {
+            this.fetchingPosts.cancel();
+        }
     }
     render() {
         return(

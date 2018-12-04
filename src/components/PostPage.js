@@ -12,10 +12,22 @@ class PostPage extends React.Component {
     }
 
     componentDidMount() {
-        api({ url: `/posts/${this.props.params.postId}?_expand=user`})
+        this.fetchPost();
+    }
+    
+    fetchPost = () => {
+        this.fetchingPost = api({ url: `/posts/${this.props.params.postId}?_expand=user`})
         .then((post) => this.setState({ post }));    
     }
 
+    componentWillUnmount() {
+
+        // Cancel if request is in pending
+        if(this.fetchingPost) {
+            this.fetchingPost.cancel();
+        }
+        
+    }
     render(){
         if(!this.state.post) {
             return <Loading />

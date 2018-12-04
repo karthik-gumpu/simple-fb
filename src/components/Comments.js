@@ -38,8 +38,10 @@ class Comments extends React.PureComponent {
         if(this.state.loading || this.state.nextPage === -1) {
             return false;
         }
+
         this.setState({ loading: true });
-        api({ url: `/posts/${this.props.params.postId}/comments?_page=${this.state.nextPage}&_limit=${PAGE_LIMIT}`})
+
+        this.fetchingComments = api({ url: `/posts/${this.props.params.postId}/comments?_page=${this.state.nextPage}&_limit=${PAGE_LIMIT}`})
         .then((comments) => {
             this.setState((prevState) => ({
                 comments: [...prevState.comments, ...comments],
@@ -53,6 +55,11 @@ class Comments extends React.PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.onPageScroll);
+        
+        // Cancel pending request
+        if(this.fetchingComments) {
+            this.fetchingComments.cancel();
+        }
     }
     render() {
         return (
