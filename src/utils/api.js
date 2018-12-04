@@ -1,6 +1,8 @@
 import Promise from 'bluebird';
 import $ from 'jquery';
 
+import { API_URL } from './../constants';
+
 Promise.config({
 	cancellation: true,
 });
@@ -8,7 +10,7 @@ Promise.config({
 export default function api(options) {
 	const configs = {
         ...options,
-        url: `https://jsonplaceholder.typicode.com${options.url}`,
+        url: `${API_URL}${options.url}`,
 	};
 	const requestPromise = new Promise(((resolve, reject, onCancel) => {
 		const request = $.ajax({...configs, 

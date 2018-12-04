@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 
+import * as constants from './../constants';
+
 const posts = (state = [], action) => {
 	switch (action.type) {
-		case 'STORE_POSTS':
+		case constants.STORE_POSTS:
             return action.posts;
-        case 'STORE_MORE_POSTS':
+        case constants.STORE_MORE_POSTS:
             return [...state, ...action.posts];
 		default:
 			return state;
@@ -13,9 +15,9 @@ const posts = (state = [], action) => {
 
 const comments = (state = [], action) => {
 	switch (action.type) {
-		case 'STORE_COMMENTS':
+		case constants.STORE_COMMENTS:
             return action.comments;
-        case 'STORE_MORE_COMMENTS':
+        case constants.STORE_MORE_COMMENTS:
             return [...state, ...action.comments];
 		default:
 			return state;
@@ -23,7 +25,7 @@ const comments = (state = [], action) => {
 }
 const user = (state = [], action) => {
 	switch (action.type) {
-		case 'STORE_USER':
+		case constants.STORE_USER:
 			return action.user;
 		default:
 			return state;
