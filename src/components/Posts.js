@@ -1,16 +1,18 @@
 import React from 'react';
 import $ from 'jquery';
+import { connect } from 'react-redux';
 
 import api from '../utils/api';
 import PostCard from './PostCard';
 import Loading from './Loading';
+import { storePosts, storeMorePosts } from './../actions';
 
 const PAGE_LIMIT = 10;
 
 class Posts extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state={ posts: [], nextPage : 1, loading: false };
+        this.state={ nextPage : 1, loading: false };
     }
 
     componentDidMount() {
@@ -21,10 +23,10 @@ class Posts extends React.PureComponent {
 
         // Fetch more posts when scroll reaches to the bottom of page
         if($(window).scrollTop() + $(window).height() === $(document).height()) {
-            this.fetchPosts();
+            this.fetchPosts(true);
         }
     }
-    fetchPosts = () => {
+    fetchPosts = (isFetchingMore = false) => {
 
         // Dont fetch posts if previous request is still in-progress
         // or when there are no more records (then nextPage is -1)
@@ -40,8 +42,13 @@ class Posts extends React.PureComponent {
         this.setState({ loading: true });
         this.fetchingPosts = api({ url })
         .then((posts) => {
+            if(isFetchingMore) {
+                this.props.storeMorePosts(posts);
+            } else {
+                this.props.storePosts(posts);
+            }
+            
             this.setState((prevState) => ({
-                posts: [...prevState.posts, ...posts],
                 nextPage: posts.length ? prevState.nextPage + 1 : -1,
                 loading: false,
             }));
@@ -61,7 +68,7 @@ class Posts extends React.PureComponent {
         return(
             <div>
                 {
-                    this.state.posts.map((post)=> (
+                    this.props.posts.map((post)=> (
                         <PostCard key={post.id} post={post} {...this.props}/>
                     ))
                 }
@@ -73,4 +80,7 @@ class Posts extends React.PureComponent {
     }
 }
 
-export default Posts;
+const mapStateToProps = ({ posts }) => ({
+    posts,
+});
+export default connect(mapStateToProps, { storePosts, storeMorePosts })(Posts);
