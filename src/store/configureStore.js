@@ -1,4 +1,4 @@
-import {createStore,compose,applyMiddleware} from 'redux';
+import { createStore } from 'redux';
 import RootReducer from '../reducers/RootReducer';
 
 export default function configureStores(initialState){
