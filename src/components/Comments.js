@@ -9,8 +9,8 @@ import { storeComments, storeMoreComments } from './../actions';
 const PAGE_LIMIT = 10;
 
 const Comment = React.memo(({ comment }) => (
-    <div className="card">
-        <h6> {comment.name} </h6>
+    <div className="comment-card">
+        <h5> {comment.name} </h5>
         <p> {comment.body} </p>
         <small><i> Commented By : {comment.email} </i></small>
     </div>

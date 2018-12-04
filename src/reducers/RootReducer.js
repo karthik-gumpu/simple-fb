@@ -23,19 +23,10 @@ const comments = (state = [], action) => {
 			return state;
 	}
 }
-const user = (state = [], action) => {
-	switch (action.type) {
-		case constants.STORE_USER:
-			return action.user;
-		default:
-			return state;
-	}
-}
 
 const RootReducer = combineReducers({
     posts,
     comments,
-    user
 });
 
 export default RootReducer;

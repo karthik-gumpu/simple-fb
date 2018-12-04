@@ -22,6 +22,9 @@ class UserProfile extends React.PureComponent {
         this.state = { user : null, showPosts: false }; 
     }
     componentDidMount() {
+        this.fetchUser();
+    }
+    fetchUser = () => {
         api({ url: `/users/${this.props.params.userId}`})
         .then((user) => this.setState({ user }));
     }

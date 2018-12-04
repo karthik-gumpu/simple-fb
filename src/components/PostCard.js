@@ -1,6 +1,9 @@
 import React from 'react';
 
-class PostCard extends React.PureComponent {
+class PostCard extends React.Component {
+    shouldComponentUpdate() {
+        return false;
+    }
     onCardClick = (e) => {
         this.props.router.push(`/posts/${this.props.post.id}/`);
     }

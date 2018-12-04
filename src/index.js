@@ -9,7 +9,6 @@ import configureStore from './store/configureStore';
 const initialState = {
     posts: [],
     comments: [],
-    user: {},
 }
 const store = configureStore(initialState);
 
