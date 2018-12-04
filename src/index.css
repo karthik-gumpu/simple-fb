@@ -12,3 +12,58 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+a {
+  text-decoration: none;
+}
+
+
+.homepage-layout {
+  margin-left: 25%;
+  width: 50%;
+}
+.card {
+  padding: 5px;
+  margin: 5px;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+
+.center-header {
+  text-align: center;
+  font-weight: 700;
+  padding: 10px;
+}
+
+.no-comments {
+  text-align: center;
+  font-style: italic;
+  padding: 10px;
+
+}
+
+.pointer {
+  cursor: pointer
+}
+
+header {
+  min-height: 2rem;
+  background-color: #3892bb;
+  color: white;
+  padding: 10px;
+}
+
+.header-logo {
+  font-weight: 800;
+  color: white;
+}
+
+.thin-line {
+  border-width: 0.5px
+}
+.text-center {
+  text-align: center
+}
