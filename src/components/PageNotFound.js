@@ -1,13 +1,9 @@
 import React from 'react';
 
-class PageNotFound extends React.Component {
-    render() {
-        return(
-            <div>
-               page not found
-            </div>
-        )
-    }
-}
+const PageNotFound = () => (
+    <div className="center-header">
+        <h1> Oops...!!! Page not found </h1>
+    </div>
+);
 
 export default PageNotFound;
