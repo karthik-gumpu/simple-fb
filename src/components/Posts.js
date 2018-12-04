@@ -83,4 +83,7 @@ class Posts extends React.PureComponent {
 const mapStateToProps = ({ posts }) => ({
     posts,
 });
-export default connect(mapStateToProps, { storePosts, storeMorePosts })(Posts);
+export default connect(
+    mapStateToProps,
+    { storePosts, storeMorePosts },
+)(Posts);

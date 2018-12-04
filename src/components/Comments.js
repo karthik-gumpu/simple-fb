@@ -1,8 +1,10 @@
 import React from 'react';
 import $ from 'jquery';
+import { connect } from 'react-redux';
 
 import api from '../utils/api';
 import Loading from './Loading';
+import { storeComments, storeMoreComments } from './../actions';
 
 const PAGE_LIMIT = 10;
 
@@ -28,10 +30,10 @@ class Comments extends React.PureComponent {
 
         // Fetch more comments when scroll reaches to the bottom of page
         if($(window).scrollTop() + $(window).height() === $(document).height()) {
-            this.fetchComments();
+            this.fetchComments(true);
         }
     }
-    fetchComments = () => {
+    fetchComments = (isFetchingMore) => {
 
         // Don't fetch posts if previous request is still in-progress
         // or when there are no more records (then nextPage is -1)
@@ -43,8 +45,12 @@ class Comments extends React.PureComponent {
 
         this.fetchingComments = api({ url: `/posts/${this.props.params.postId}/comments?_page=${this.state.nextPage}&_limit=${PAGE_LIMIT}`})
         .then((comments) => {
+            if(isFetchingMore) {
+                this.props.storeMoreComments(comments);
+            } else {
+                this.props.storeComments(comments);
+            }
             this.setState((prevState) => ({
-                comments: [...prevState.comments, ...comments],
                 nextPage: comments.length ? prevState.nextPage + 1 : -1,
                 loading: false,
             }));
@@ -65,11 +71,17 @@ class Comments extends React.PureComponent {
         return (
             <div>
                 <span className="center-header"> Comments</span>
-                { this.state.comments.map((comment) => <Comment key={comment.id} comment={comment} />) }
+                { this.props.comments.map((comment) => <Comment key={comment.id} comment={comment} />) }
                 { this.state.loading && <Loading /> }
             </div>
         );
     }
 }
 
-export default Comments;
+const mapStateToProps = ({ comments }) => ({
+    comments,
+})
+export default connect(
+    mapStateToProps,
+    { storeComments, storeMoreComments },
+)(Comments);
