@@ -20,19 +20,19 @@ class Posts extends React.PureComponent {
     onPageScroll = () => {
 
         // Fetch more posts when scroll reaches bottom of page
-
-        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+        if($(window).scrollTop() + $(window).height() === $(document).height()) {
             this.fetchPosts();
         }
     }
     fetchPosts = () => {
 
-        // Dont fetch posts if previous request is in still progress
+        // Dont fetch posts if previous request is still in-progress
         // or when there are no more records (then nextPage is -1)
 
         if(this.state.loading || this.state.nextPage === -1) {
             return false;
         }
+
         let url = `/posts?_expand=user&_page=${this.state.nextPage}&_limit=${PAGE_LIMIT}`;
         if(this.props.params.userId) {
             url = `${url}&userId=${this.props.params.userId}`
@@ -45,6 +45,8 @@ class Posts extends React.PureComponent {
                 nextPage: posts.length ? prevState.nextPage + 1 : -1,
                 loading: false,
             }));
+        },() => {
+            this.setState({ loading: false })
         });
     }
     componentWillUnmount() {
