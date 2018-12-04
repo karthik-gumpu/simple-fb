@@ -19,7 +19,7 @@ class Posts extends React.PureComponent {
     }
     onPageScroll = () => {
 
-        // Fetch more posts when scroll reaches bottom of page
+        // Fetch more posts when scroll reaches to the bottom of page
         if($(window).scrollTop() + $(window).height() === $(document).height()) {
             this.fetchPosts();
         }

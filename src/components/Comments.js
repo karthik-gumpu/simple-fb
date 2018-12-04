@@ -26,7 +26,7 @@ class Comments extends React.PureComponent {
     }
     onPageScroll = () => {
 
-        // Fetch more comments when scroll reaches bottom of page
+        // Fetch more comments when scroll reaches to the bottom of page
         if($(window).scrollTop() + $(window).height() === $(document).height()) {
             this.fetchComments();
         }
