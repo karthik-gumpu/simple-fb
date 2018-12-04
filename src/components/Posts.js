@@ -1,36 +1,65 @@
 import React from 'react';
+import $ from 'jquery';
 
 import api from '../utils/api';
 import PostCard from './PostCard';
 import Loading from './Loading';
 
+const PAGE_LIMIT = 10;
+
 class Posts extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state={ posts: null };
+        this.state={ posts: [], nextPage : 1, loading: false };
     }
 
     componentDidMount() {
-        let url = '/posts?_expand=user'
+        this.fetchPosts();
+        window.addEventListener('scroll', this.onPageScroll) 
+    }
+    onPageScroll = () => {
+
+        // Fetch more posts when scroll reaches bottom of page
+
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            this.fetchPosts();
+        }
+    }
+    fetchPosts = () => {
+
+        // Dont fetch posts if previous request is in still progress
+        // or when there are no more records (then nextPage is -1)
+
+        if(this.state.loading || this.state.nextPage === -1) {
+            return false;
+        }
+        let url = `/posts?_expand=user&_page=${this.state.nextPage}&_limit=${PAGE_LIMIT}`;
         if(this.props.params.userId) {
             url = `${url}&userId=${this.props.params.userId}`
         }
+        this.setState({ loading: true });
         api({ url })
         .then((posts) => {
-            this.setState({ posts });
+            this.setState((prevState) => ({
+                posts: [...prevState.posts, ...posts],
+                nextPage: posts.length ? prevState.nextPage + 1 : -1,
+                loading: false,
+            }));
         });
     }
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onPageScroll);
+    }
     render() {
-        if(!this.state.posts) {
-            return <Loading />
-        }
-        if(!this.state.posts.length) {
-            return "No posts available";
-        }
         return(
             <div>
                 {
-                    this.state.posts.map((post)=> <PostCard key={post.id} post={post} {...this.props}/>)
+                    this.state.posts.map((post)=> (
+                        <PostCard key={post.id} post={post} {...this.props}/>
+                    ))
+                }
+                {
+                    this.state.loading && <Loading />
                 }
             </div>
         )
