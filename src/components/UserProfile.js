@@ -5,11 +5,11 @@ import Loading from './Loading';
 import Posts from './Posts';
 
 const ProfileCard = React.memo(({ user }) => (
-    <div className="card text-center">
+    <div className="comment-card text-center">
         <h2> {user.name} </h2>
         <h4> {user.username} </h4>
         <i> {user.email} </i>
-        <a href={`${user.website}`}> {user.website}</a>
+        <p><a href={`${user.website}`}> {user.website}</a></p>
         <p>
             Company name: {user.company.name}
         </p>
